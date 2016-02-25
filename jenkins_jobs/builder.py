@@ -199,6 +199,7 @@ class Jenkins(object):
                                  'longName': ''}]
             else:
                 raise e
+                logger.info('Have you used VPN today ?')
         logger.debug("Jenkins Plugin Info {0}".format(pformat(plugins_list)))
 
         return plugins_list
