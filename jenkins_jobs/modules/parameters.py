@@ -591,8 +591,19 @@ def extensible_choice_param(parser, xml_parent, data):
     :arg str name: the name of the parameter
     :arg str description: a description of the parameter (optional)
     :arg bool editable: you can specify a parameter other than those in the choice
-    :arg str script: Groovy expression which generates the potential choices.
-    :arg str usePredefinedVariables: Enable following pre-defined variables 
+    :arg str choice: select a provider that gives choices when build (file, global, groovy, textarea)
+
+    :arg str basedirpath: the path to the directory to scan for files
+    :arg str includepattern: the pattern of files to list
+    :arg str scantype: the patterns not to list 
+    :arg str excludepattern: specify what type of files to list
+    :arg bool reverseorder: check to list files in reverse alphabetical order
+    :arg str emptychoicetype: adds an empty choice to the specified place
+
+    :arg str globalname: a name of the choice set, that you have specified in the system configuration
+
+    :arg str script: groovy expression which generates the potential choices
+    :arg str usePredefinedVariables: enable following pre-defined variables 
 
     Example::
 
@@ -601,6 +612,14 @@ def extensible_choice_param(parser, xml_parent, data):
             name: OPTIONS
             description: "Available options"
             editable: false
+            choice: file 
+            basedirpath: 
+            includepattern:
+            scantype: File
+            excludepattern:
+            reverseorder: false
+            emptychoicetype: None
+            globalname: value
             script: "Script text"
             usePredefinedVariables: false
     """
@@ -612,10 +631,28 @@ def extensible_param_common(parser, xml_parent, data, ptype):
                       'jp.ikedam.jenkins.plugins.extensible__choice__parameter.'
                       + ptype)
     XML.SubElement(pdef, 'editable').text = str(data.get('editable', False)).lower()
-    choiceListProvider = XML.SubElement(pdef, 'choiceListProvider',
-                                  {'class': 'jp.ikedam.jenkins.plugins.extensible_choice_parameter.SystemGroovyChoiceListProvider'})
-    scriptText = XML.SubElement(choiceListProvider, 'scriptText').text = data.get('script', None)
-    XML.SubElement(choiceListProvider, 'usePredefinedVariables').text = str(data.get('usePredefinedVariables', False)).lower()
+    choice = str(data.get('choice'))
+    if choice == "file":
+        choiceListProvider = XML.SubElement(pdef, 'choiceListProvider',
+                                  {'class': 'jp.ikedam.jenkins.plugins.extensible_choice_parameter.' + 'FilenameChoiceListProvider'})
+        XML.SubElement(choiceListProvider, 'baseDirPath').text = str(data.get('basedirpath', None)).lower()
+        XML.SubElement(choiceListProvider, 'includePattern').text = str(data.get('includepattern', None)).lower()
+        XML.SubElement(choiceListProvider, 'scanType').text = data.get('scantype', 'File')
+        XML.SubElement(choiceListProvider, 'excludePattern').text = str(data.get('excludepattern', None)).lower()
+        XML.SubElement(choiceListProvider, 'reverseOrder').text = str(data.get('reverseorder', False)).lower()
+        XML.SubElement(choiceListProvider, 'emptyChoiceType').text = str(data.get('emptychoicetype', None)).lower()
+    elif choice == "global": 
+        choiceListProvider = XML.SubElement(pdef, 'choiceListProvider',
+                                  {'class': 'jp.ikedam.jenkins.plugins.extensible_choice_parameter.' + 'GlobalTextareaChoiceListProvider'})
+        XML.SubElement(choiceListProvider, 'name').text = data.get('globalname', None)
+    elif choice == "groovy": 
+        choiceListProvider = XML.SubElement(pdef, 'choiceListProvider',
+                                  {'class': 'jp.ikedam.jenkins.plugins.extensible_choice_parameter.' + 'SystemGroovyChoiceListProvider'})
+        XML.SubElement(choiceListProvider, 'scriptText').text = data.get('script', None)
+        XML.SubElement(choiceListProvider, 'usePredefinedVariables').text = str(data.get('usePredefinedVariables', False)).lower()
+    elif choice == "textarea": 
+        choiceListProvider = XML.SubElement(pdef, 'choiceListProvider',
+                                  {'class': 'jp.ikedam.jenkins.plugins.extensible_choice_parameter.' + 'TextareaChoiceListProvider'})
 
 
 def matrix_combinations_param(parser, xml_parent, data):
