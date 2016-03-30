@@ -582,6 +582,41 @@ def dynamic_scriptler_param_common(parser, xml_parent, data, ptype):
     XML.SubElement(pdef, 'readonlyInputField').text = str(data.get(
         'read-only', False)).lower()
 
+def extensible_choice_param(parser, xml_parent, data):
+    """yaml: extensible-choice
+    Extensible Choice Parameter
+    Requires the Jenkins :jenkins-wiki:`Jenkins Extensible Choice Parameter plugin
+    <Extensible+Choice+Parameter+plugin>`.
+
+    :arg str name: the name of the parameter
+    :arg str description: a description of the parameter (optional)
+    :arg bool editable: you can specify a parameter other than those in the choice
+    :arg str script: Groovy expression which generates the potential choices.
+    :arg str usePredefinedVariables: Enable following pre-defined variables 
+
+    Example::
+
+      parameters:
+        - extensible-choice:
+            name: OPTIONS
+            description: "Available options"
+            editable: false
+            script: "Script text"
+            usePredefinedVariables: false
+    """
+    extensible_param_common(parser, xml_parent, data, 'ExtensibleChoiceParameterDefinition')
+
+
+def extensible_param_common(parser, xml_parent, data, ptype):
+    pdef = base_param(parser, xml_parent, data, False,
+                      'jp.ikedam.jenkins.plugins.extensible__choice__parameter.'
+                      + ptype)
+    XML.SubElement(pdef, 'editable').text = str(data.get('editable', False)).lower()
+    choiceListProvider = XML.SubElement(pdef, 'choiceListProvider',
+                                  {'class': 'jp.ikedam.jenkins.plugins.extensible_choice_parameter.SystemGroovyChoiceListProvider'})
+    scriptText = XML.SubElement(choiceListProvider, 'scriptText').text = data.get('script', None)
+    XML.SubElement(choiceListProvider, 'usePredefinedVariables').text = str(data.get('usePredefinedVariables', False)).lower()
+
 
 def matrix_combinations_param(parser, xml_parent, data):
     """yaml: matrix-combinations
