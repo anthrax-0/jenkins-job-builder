@@ -5127,8 +5127,14 @@ class Publishers(jenkins_jobs.modules.base.Base):
     component_type = 'publisher'
     component_list_type = 'publishers'
 
+    global projects_with_unreadable_data
+    projects_with_unreadable_data = ('com.cloudbees.hudson.plugins.folder.Folder',
+                           'se.diabol.jenkins.pipeline.DeliveryPipelineView',
+                           'hudson.model.ListView')
+
     def gen_xml(self, parser, xml_parent, data):
-        publishers = XML.SubElement(xml_parent, 'publishers')
+        if xml_parent.tag not in projects_with_unreadable_data:
+            publishers = XML.SubElement(xml_parent, 'publishers')
 
         for action in data.get('publishers', []):
             self.registry.dispatch('publisher', parser, publishers, action)

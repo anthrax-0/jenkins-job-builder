@@ -104,16 +104,23 @@ import jenkins_jobs.modules.base
 class General(jenkins_jobs.modules.base.Base):
     sequence = 10
 
+    global projects_with_unreadable_data
+    projects_with_unreadable_data = ('com.cloudbees.hudson.plugins.folder.Folder',
+                           'se.diabol.jenkins.pipeline.DeliveryPipelineView',
+                           'hudson.model.ListView')
+
     def gen_xml(self, parser, xml, data):
         jdk = data.get('jdk', None)
         if jdk:
             XML.SubElement(xml, 'jdk').text = jdk
-        XML.SubElement(xml, 'actions')
+        if xml.tag not in projects_with_unreadable_data:
+            XML.SubElement(xml, 'actions')
         desc_text = data.get('description', None)
         if desc_text is not None:
             description = XML.SubElement(xml, 'description')
             description.text = desc_text
-        XML.SubElement(xml, 'keepDependencies').text = 'false'
+        if xml.tag not in projects_with_unreadable_data:
+            XML.SubElement(xml, 'keepDependencies').text = 'false'
         disabled = data.get('disabled', None)
         if disabled is not None:
             if disabled:
@@ -122,24 +129,26 @@ class General(jenkins_jobs.modules.base.Base):
                 XML.SubElement(xml, 'disabled').text = 'false'
         if 'display-name' in data:
             XML.SubElement(xml, 'displayName').text = data['display-name']
-        if data.get('block-downstream'):
-            XML.SubElement(xml,
+        if xml.tag not in projects_with_unreadable_data:
+            if data.get('block-downstream'):
+                XML.SubElement(xml,
                            'blockBuildWhenDownstreamBuilding').text = 'true'
-        else:
-            XML.SubElement(xml,
+            else:
+                XML.SubElement(xml,
                            'blockBuildWhenDownstreamBuilding').text = 'false'
-        if data.get('block-upstream'):
-            XML.SubElement(xml,
+            if data.get('block-upstream'):
+                XML.SubElement(xml,
                            'blockBuildWhenUpstreamBuilding').text = 'true'
-        else:
-            XML.SubElement(xml,
+            else:
+                XML.SubElement(xml,
                            'blockBuildWhenUpstreamBuilding').text = 'false'
         if 'auth-token' in data:
             XML.SubElement(xml, 'authToken').text = data['auth-token']
-        if data.get('concurrent'):
-            XML.SubElement(xml, 'concurrentBuild').text = 'true'
-        else:
-            XML.SubElement(xml, 'concurrentBuild').text = 'false'
+        if xml.tag not in projects_with_unreadable_data:
+            if data.get('concurrent'):
+                XML.SubElement(xml, 'concurrentBuild').text = 'true'
+            else:
+                XML.SubElement(xml, 'concurrentBuild').text = 'false'
         if 'workspace' in data:
             XML.SubElement(xml, 'customWorkspace').text = \
                 str(data['workspace'])
@@ -153,7 +162,8 @@ class General(jenkins_jobs.modules.base.Base):
             XML.SubElement(xml, 'assignedNode').text = node
             XML.SubElement(xml, 'canRoam').text = 'false'
         else:
-            XML.SubElement(xml, 'canRoam').text = 'true'
+            if xml.tag not in projects_with_unreadable_data:
+                XML.SubElement(xml, 'canRoam').text = 'true'
         if 'retry-count' in data:
             XML.SubElement(xml, 'scmCheckoutRetryCount').text = \
                 str(data['retry-count'])

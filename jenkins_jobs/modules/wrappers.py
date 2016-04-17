@@ -2017,8 +2017,14 @@ class Wrappers(jenkins_jobs.modules.base.Base):
     component_type = 'wrapper'
     component_list_type = 'wrappers'
 
+    global projects_with_unreadable_data
+    projects_with_unreadable_data = ('com.cloudbees.hudson.plugins.folder.Folder',
+                           'se.diabol.jenkins.pipeline.DeliveryPipelineView',
+                           'hudson.model.ListView')
+
     def gen_xml(self, parser, xml_parent, data):
-        wrappers = XML.SubElement(xml_parent, 'buildWrappers')
+        if xml_parent.tag not in projects_with_unreadable_data:
+            wrappers = XML.SubElement(xml_parent, 'buildWrappers')
 
         for wrap in data.get('wrappers', []):
             self.registry.dispatch('wrapper', parser, wrappers, wrap)

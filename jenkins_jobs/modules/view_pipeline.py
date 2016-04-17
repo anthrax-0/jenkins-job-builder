@@ -75,9 +75,6 @@ class BuildPipeline(jenkins_jobs.modules.base.Base):
                            'plugin.buildpipeline.BuildPipelineView',
                            {'plugin': 'build-pipeline-plugin@1.4.3'})
         XML.SubElement(root, 'name').text = data['name']
-        desc_text = data.get('description', None)
-        if desc_text is not None:
-            XML.SubElement(root, 'description').text = desc_text
 
         filterExecutors = data.get('filter-executors', False)
         FE_element = XML.SubElement(root, 'filterExecutors')
@@ -155,9 +152,6 @@ class DeliveryPipeline(jenkins_jobs.modules.base.Base):
         root = XML.Element('se.diabol.jenkins.pipeline.DeliveryPipelineView',
                            {'plugin': 'delivery-pipeline-plugin'})
         XML.SubElement(root, 'name').text = data['name']
-        desc_text = data.get('description', None)
-        if desc_text is not None:
-            XML.SubElement(root, 'description').text = desc_text
 
         filterExecutors = data.get('filter-executors', False)
         XML.SubElement(root, 'filterExecutors').text = str(filterExecutors).lower()
@@ -224,9 +218,6 @@ class DeliveryPipeline(jenkins_jobs.modules.base.Base):
 
         showstaticanal = str(data.get('show-static-analysis-results', False))
         XML.SubElement(root,'showStaticAnalysisResults').text = str(showstaticanal).lower()
-
-        regexpfirstjob = str(data.get('first-job-regexp'))
-        XML.SubElement(root,'regexpFirstJobs').text = regexpfirstjob
 
         xml_jobs = XML.SubElement(root, 'regexpFirstJobs')
         jobs = data.get('regexp-first-jobs', [])

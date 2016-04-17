@@ -952,13 +952,19 @@ class SCM(jenkins_jobs.modules.base.Base):
     component_type = 'scm'
     component_list_type = 'scm'
 
+    global projects_with_unreadable_data
+    projects_with_unreadable_data = ('com.cloudbees.hudson.plugins.folder.Folder',
+                           'se.diabol.jenkins.pipeline.DeliveryPipelineView',
+                           'hudson.model.ListView')
+
     def gen_xml(self, parser, xml_parent, data):
         scms_parent = XML.Element('scms')
         for scm in data.get('scm', []):
             self.registry.dispatch('scm', parser, scms_parent, scm)
         scms_count = len(scms_parent)
         if scms_count == 0:
-            XML.SubElement(xml_parent, 'scm', {'class': 'hudson.scm.NullSCM'})
+            if xml_parent.tag not in projects_with_unreadable_data:
+                XML.SubElement(xml_parent, 'scm', {'class': 'hudson.scm.NullSCM'})
         elif scms_count == 1:
             xml_parent.append(scms_parent[0])
         else:

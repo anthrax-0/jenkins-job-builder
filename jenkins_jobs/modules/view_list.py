@@ -66,9 +66,6 @@ class List(jenkins_jobs.modules.base.Base):
     def root_xml(self, data):
         root = XML.Element('hudson.model.ListView')
         XML.SubElement(root, 'name').text = data['name']
-        desc_text = data.get('description', None)
-        if desc_text is not None:
-            XML.SubElement(root, 'description').text = desc_text
 
         filterExecutors = data.get('filter-executors', False)
         FE_element = XML.SubElement(root, 'filterExecutors')

@@ -1854,6 +1854,11 @@ class Builders(jenkins_jobs.modules.base.Base):
     component_type = 'builder'
     component_list_type = 'builders'
 
+    global projects_with_unreadable_data
+    projects_with_unreadable_data = ('com.cloudbees.hudson.plugins.folder.Folder',
+                           'se.diabol.jenkins.pipeline.DeliveryPipelineView',
+                           'hudson.model.ListView')
+
     def gen_xml(self, parser, xml_parent, data):
 
         for alias in ['prebuilders', 'builders', 'postbuilders']:
@@ -1867,7 +1872,8 @@ class Builders(jenkins_jobs.modules.base.Base):
         # or Jenkins v1.472 (at least) will NPE.
         project_type = data.get('project-type', 'freestyle')
         if project_type in ('freestyle', 'matrix') and 'builders' not in data:
-            XML.SubElement(xml_parent, 'builders')
+            if xml_parent.tag not in projects_with_unreadable_data:
+                XML.SubElement(xml_parent, 'builders')
 
 
 def shining_panda(parser, xml_parent, data):
