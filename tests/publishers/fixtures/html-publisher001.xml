@@ -9,6 +9,7 @@
           <reportFiles>index.html</reportFiles>
           <keepAll>true</keepAll>
           <allowMissing>true</allowMissing>
+          <alwaysLinkToLastBuild>true</alwaysLinkToLastBuild>
           <wrapperName>htmlpublisher-wrapper.html</wrapperName>
         </htmlpublisher.HtmlPublisherTarget>
       </reportTargets>

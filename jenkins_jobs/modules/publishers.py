@@ -2631,8 +2631,7 @@ def html_publisher(parser, xml_parent, data):
     :arg str files: Specify the pages to display
     :arg bool keep-all: keep HTML reports for each past build (Default False)
     :arg bool allow-missing: Allow missing HTML reports (Default False)
-
-
+    :arg bool link-to-last-build: If this and ‘keep-all’ both are true, it publishes the link on project level even if build failed. (Default False)
     Example:
 
     .. literalinclude:: /../../tests/publishers/fixtures/html-publisher001.yaml
@@ -2650,7 +2649,8 @@ def html_publisher(parser, xml_parent, data):
     allow_missing = str(data.get('allow-missing', False)).lower()
     XML.SubElement(ptarget, 'allowMissing').text = allow_missing
     XML.SubElement(ptarget, 'wrapperName').text = "htmlpublisher-wrapper.html"
-
+    link_to_last_build = str(data.get('link-to-last-build', False)).lower()
+    XML.SubElement(ptarget, 'alwaysLinkToLastBuild').text = link_to_last_build
 
 def rich_text_publisher(parser, xml_parent, data):
     """yaml: rich_text_publisher
