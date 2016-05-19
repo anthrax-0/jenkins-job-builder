@@ -1,0 +1,9 @@
+    triggers:
+      - bitbucket_pr:
+          cron: '* * * * *'
+          credentials: '430e72d0-c894-4aa2-8284-bde264d94ee9'
+          repository_owner: 'owner'
+          repository_name: 'repo_name'
+          branches_filter: 'd:develop'
+          check_commit: true
+          approve: true
