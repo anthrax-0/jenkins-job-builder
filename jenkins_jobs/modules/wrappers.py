@@ -809,7 +809,7 @@ def env_script(parser, xml_parent, data):
     el = XML.SubElement(xml_parent, 'com.lookout.jenkins.EnvironmentScript')
     XML.SubElement(el, 'script').text = data.get('script-content', '')
     only_on_parent = str(data.get('only-run-on-parent', False)).lower()
-    XML.SubElement(el, 'onlyRunOnParent').text = only_on_parent
+    XML.SubElement(el, 'runOnlyOnParent').text = only_on_parent
 
 
 def jclouds(parser, xml_parent, data):

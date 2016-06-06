@@ -3,7 +3,7 @@
   <buildWrappers>
     <com.lookout.jenkins.EnvironmentScript>
         <script>echo foo=bar</script>
-        <onlyRunOnParent>true</onlyRunOnParent>
+        <runOnlyOnParent>true</runOnlyOnParent>
     </com.lookout.jenkins.EnvironmentScript>
   </buildWrappers>
 </project>
