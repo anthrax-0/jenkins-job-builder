@@ -49,6 +49,10 @@ Requires the Jenkins
       (default '3')
     * **definition-header** (`bool`) Show pipeline definition header.
       (default false)
+    * **paging-enabled** (`bool`) Enable paging.
+      (default false)
+    * **show-aggregated-changes** (`bool`) Show aggregated changes.
+      (default false)
 
 Example:
 
@@ -218,6 +222,12 @@ class DeliveryPipeline(jenkins_jobs.modules.base.Base):
 
         showstaticanal = str(data.get('show-static-analysis-results', False))
         XML.SubElement(root,'showStaticAnalysisResults').text = str(showstaticanal).lower()
+
+        pagingenabled = str(data.get('paging-enabled', False))
+        XML.SubElement(root,'pagingEnabled').text = str(pagingenabled).lower()
+
+        showaggregatedchanges = str(data.get('show-aggregated-changes', False))
+        XML.SubElement(root,'showAggregatedChanges').text = str(showaggregatedchanges).lower()
 
         xml_jobs = XML.SubElement(root, 'regexpFirstJobs')
         jobs = data.get('regexp-first-jobs', [])
