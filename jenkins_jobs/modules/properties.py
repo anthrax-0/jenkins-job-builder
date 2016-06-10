@@ -609,6 +609,8 @@ def delivery_pipeline(parser, xml_parent, data):
 
     :arg str stage: Name of the stage for this job (default: '')
     :arg str task: Name of the task for this job (default: '')
+    :arg str desc-template: Provide description template
+      for this job (default: '')
 
     Example:
 
@@ -621,6 +623,7 @@ def delivery_pipeline(parser, xml_parent, data):
                               'PipelineProperty')
     XML.SubElement(pipeline, 'stageName').text = data.get('stage', '')
     XML.SubElement(pipeline, 'taskName').text = data.get('task', '')
+    XML.SubElement(pipeline, 'descriptionTemplate').text = data.get('desc-template', '')
 
 
 def zeromq_event(parser, xml_parent, data):
