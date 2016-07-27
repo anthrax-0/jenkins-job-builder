@@ -2208,8 +2208,17 @@ def join_trigger(parser, xml_parent, data):
         for edited_node in create_publishers(parser, pub):
             publishers.append(edited_node)
 
-    unstable = str(data.get('even-if-unstable', 'false')).lower()
-    XML.SubElement(jointrigger, 'evenIfDownstreamUnstable').text = unstable
+    resultThreshold = XML.SubElement(jointrigger, 'resultThreshold')
+    XML.SubElement(resultThreshold, 'completeBuild').text = 'true'
+
+    if str(data.get('even-if-unstable', 'false')).lower() == 'false':
+        XML.SubElement(resultThreshold, 'name').text = 'SUCCESS'
+        XML.SubElement(resultThreshold, 'ordinal').text = '0'
+        XML.SubElement(resultThreshold, 'color').text = 'BLUE'
+    else:
+        XML.SubElement(resultThreshold, 'name').text = 'UNSTABLE'
+        XML.SubElement(resultThreshold, 'ordinal').text = '1'
+        XML.SubElement(resultThreshold, 'color').text = 'YELLOW'
 
 
 def jabber(parser, xml_parent, data):
@@ -2631,7 +2640,7 @@ def html_publisher(parser, xml_parent, data):
     :arg str files: Specify the pages to display
     :arg bool keep-all: keep HTML reports for each past build (Default False)
     :arg bool allow-missing: Allow missing HTML reports (Default False)
-    :arg bool link-to-last-build: If this and ‘keep-all’ both are true, it publishes the link on project level even if build failed. (Default False)
+    :arg bool link-to-last-build: If this and 'keep-all' both are true, it publishes the link on project level even if build failed. (Default False)
     Example:
 
     .. literalinclude:: /../../tests/publishers/fixtures/html-publisher001.yaml
