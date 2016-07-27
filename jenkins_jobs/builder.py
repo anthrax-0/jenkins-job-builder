@@ -197,9 +197,16 @@ class Jenkins(object):
                 plugins_list = [{'shortName': '',
                                  'version': '',
                                  'longName': ''}]
+            elif re.search("Forbidden", str(e)):
+                logger.warn("Unable to retrieve Jenkins Plugin Info from {0},"
+                            " using default empty plugins info list.".format(
+                                self.jenkins.server))
+                plugins_list = [{'shortName': '',
+                                 'version': '',
+                                 'longName': ''}]
             else:
-                raise e
                 logger.info('Have you used VPN today ?')
+                raise e
         logger.debug("Jenkins Plugin Info {0}".format(pformat(plugins_list)))
 
         return plugins_list
