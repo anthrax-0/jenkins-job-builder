@@ -15,7 +15,12 @@
           </configs>
         </hudson.plugins.parameterizedtrigger.BuildTrigger>
       </joinPublishers>
-      <evenIfDownstreamUnstable>true</evenIfDownstreamUnstable>
+      <resultThreshold>
+        <completeBuild>true</completeBuild>
+        <name>UNSTABLE</name>
+        <ordinal>1</ordinal>
+        <color>YELLOW</color>
+      </resultThreshold>
     </join.JoinTrigger>
   </publishers>
 </project>
