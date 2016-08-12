@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project>
   <triggers class="vector">
-    <stashpullrequestbuilder.stashpullrequestbuilder.StashBuildTrigger plugin="stash-pullrequest-builder@1.6.0">
+    <stashpullrequestbuilder.stashpullrequestbuilder.StashBuildTrigger plugin="stash-pullrequest-builder">
       <spec>H/5 * * * *</spec>
       <cron>H/5 * * * *</cron>
       <stashHost>https://mystash-host</stashHost>
