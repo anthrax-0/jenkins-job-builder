@@ -785,6 +785,47 @@ def github_pull_request(parser, xml_parent, data):
                                 'ghprb.GhprbBranch')
             XML.SubElement(be, 'branch').text = str(branch)
 
+def stash_pull_request(parser, xml_parent, data):
+    """yaml: stash-pull-request
+    Build pull requests in stash and report results.
+    Requires the Jenkins :jenkins-wiki:`Stash pullrequest builder plugin
+    <stashpullrequestbuilder.stashpullrequestbuilder.StashBuildTrigger>`.
+
+    Example:
+
+    .. literalinclude:: /../../tests/triggers/fixtures/stash-pull-request.yaml
+    """
+    sprb = XML.SubElement(xml_parent, 'stashpullrequestbuilder.stashpullrequestbuilder.StashBuildTrigger')
+    if not data.get('cron', None):
+        raise jenkins_jobs.errors.JenkinsJobsException('stash-pull-request is missing "cron"')
+    XML.SubElement(sprb, 'spec').text = data.get('cron', '')
+    XML.SubElement(sprb, 'cron').text = data.get('cron', '')
+
+    if not data.get('stash-host', None):
+        raise jenkins_jobs.errors.JenkinsJobsException('stash-pull-request is missing "stash-host"')
+    XML.SubElement(sprb, 'stashHost').text = data.get('stash-host', '')
+
+    if not data.get('credentials-id', None):
+        raise jenkins_jobs.errors.JenkinsJobsException('stash-pull-request is missing "credentials-id"')
+    XML.SubElement(sprb, 'credentialsId').text = data.get('credentials-id', '')
+
+    if not data.get('project-code', None):
+        raise jenkins_jobs.errors.JenkinsJobsException('stash-pull-request is missing "project-code"')
+    XML.SubElement(sprb, 'projectCode').text = data.get('project-code', '')
+
+    if not data.get('repository-name', None):
+        raise jenkins_jobs.errors.JenkinsJobsException('stash-pull-request is missing "repository-name"')
+    XML.SubElement(sprb, 'repositoryName').text = data.get('repository-name', '')
+
+    XML.SubElement(sprb, 'ciSkipPhrases').text = data.get('ci-skip-phrases:', 'NO TEST')
+    XML.SubElement(sprb, 'ciBuildPhrases').text = data.get('ci-build-phrases', 'test this please')
+    XML.SubElement(sprb, 'targetBranchesToBuild').text = data.get('target-branches-to-build:', '')
+    XML.SubElement(sprb, 'ignoreSsl').text = str(data.get('ignore-ssl', False)).lower()
+    XML.SubElement(sprb, 'checkDestinationCommit').text = str(data.get('check-destination-commit', False)).lower()
+    XML.SubElement(sprb, 'checkMergeable').text = str(data.get('check-mergeable', False)).lower()
+    XML.SubElement(sprb, 'checkNotConflicted').text = str(data.get('check-not-conflicted', False)).lower()
+    XML.SubElement(sprb, 'onlyBuildOnComment').text = str(data.get('only-build-on-comment', False)).lower()
+    XML.SubElement(sprb, 'deletePreviousBuildFinishComments').text = str(data.get('delete-previous-build-finish-comments', False)).lower()
 
 def gitlab_merge_request(parser, xml_parent, data):
     """yaml: gitlab-merge-request
