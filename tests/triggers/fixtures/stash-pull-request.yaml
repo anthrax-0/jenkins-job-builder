@@ -1,21 +1,16 @@
 triggers:
-  - github-pull-request:
-      admin-list:
-        - user1
-        - user2
-      white-list:
-        - user3
-        - user4
-      org-list:
-        - org1
-        - org2
-      cron: '* * * * *'
-      trigger-phrase: 'retest this please'
-      only-trigger-phrase: true
-      github-hooks: true
-      permit-all: false
-      auto-close-on-fail: false
-      allow-whitelist-orgs-as-admins: true
-      white-list-target-branches:
-        - master
-        - testing
+  - stash-pull-request:
+      cron: 'H/5 * * * *'
+      stash-host: 'https://mystash-host'
+      credentials-id: '4f93f903-4c5d-44bc-9b1d-4f1ae6858df3'
+      project-code: 'VS'
+      repository-name: 'pull-request-tests'
+      ci-skip-phrases: 'NO TEST'
+      ci-build-phrases: 'retest this please'
+      target-branches-to-build:
+      ignore-ssl: true
+      check-destination-commit: true
+      check-mergeable: true
+      check-not-conflicted: true
+      only-build-on-comment: false
+      delete-previous-build-finish-comments: true
