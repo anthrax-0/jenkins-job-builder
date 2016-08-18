@@ -817,9 +817,9 @@ def stash_pull_request(parser, xml_parent, data):
         raise jenkins_jobs.errors.JenkinsJobsException('stash-pull-request is missing "repository-name"')
     XML.SubElement(sprb, 'repositoryName').text = data.get('repository-name', '')
 
-    XML.SubElement(sprb, 'ciSkipPhrases').text = data.get('ci-skip-phrases:', 'NO TEST')
+    XML.SubElement(sprb, 'ciSkipPhrases').text = data.get('ci-skip-phrases', 'NO TEST')
     XML.SubElement(sprb, 'ciBuildPhrases').text = data.get('ci-build-phrases', 'test this please')
-    XML.SubElement(sprb, 'targetBranchesToBuild').text = data.get('target-branches-to-build:', '')
+    XML.SubElement(sprb, 'targetBranchesToBuild').text = data.get('target-branches-to-build', '')
     XML.SubElement(sprb, 'ignoreSsl').text = str(data.get('ignore-ssl', False)).lower()
     XML.SubElement(sprb, 'checkDestinationCommit').text = str(data.get('check-destination-commit', False)).lower()
     XML.SubElement(sprb, 'checkMergeable').text = str(data.get('check-mergeable', False)).lower()
