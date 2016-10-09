@@ -1,4 +1,4 @@
-FROM oberthur/docker-ubuntu:15.04
+FROM oberthur/docker-ubuntu:16.04
 
 MAINTAINER Dawid Malinowski <d.malinowski@oberthur.com>
 
@@ -10,7 +10,7 @@ RUN apt-get update \
     && easy_install pip \
     && pip install PyYAML \
     && pip install six pbr \
-    && pip install pyOpenSSL pyasn1 ndg-httpsclient ordereddict multi_key_dict
+    && pip install pyOpenSSL pyasn1 ndg-httpsclient ordereddict multi_key_dict sphinx sphinxcontrib-programoutput builders
 
 RUN mkdir /opt/jenkins-job-builder
 ADD . /opt/jenkins-job-builder

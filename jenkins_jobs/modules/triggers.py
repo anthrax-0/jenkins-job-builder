@@ -1111,41 +1111,43 @@ def groovy_script(parser, xml_parent, data):
         XML.SubElement(gst, 'triggerLabel').text = label
     XML.SubElement(gst, 'spec').text = str(data.get('cron', ''))
 
+
 def bitbucket_pr(parser, xml_parent, data):
     """yaml: bitbucket_pr
     This Jenkins plugin builds pull requests from Bitbucket.org and will report the test results.
     Requires the Jenkins :jenkins-wiki:`Bitbucket pullrequest builder plugin
-    <Bitbucket+pullrequest+builder+plugin>` and :jenkins-wiki:`Git Plugin
-    <Git+Plugin>.
+    <Bitbucket+pullrequest+builder+plugin>` and :jenkins-wiki:`Git Plugin <Git+Plugin>`.
 
-    :arg str cron: ( default '* * * * *')
-    :arg str spec: ( default '* * * * *')
+    :arg str cron: ( default * * * * * )
+    :arg str spec: ( default * * * * * )
     :arg str credentials: credentials id from jenkins ( default '' )
     :arg str username: BB username ( default '' )
     :arg str password: BB password ( default '' )
     :arg str repository_owner: BB repo owner ( default '' )
     :arg str repository_name: BB repo name ( default '' )
     :arg str branches_filter: Filter option in custom format. Default value is empty or "any".
-                    Available formats: * any pull requests applied for this project: "any", "*" or empty string.
-                    * filtered by destination branch: "my-branch" or more complex reg-ex filter "r:^master"
-                    (must be started with "r:" and case insensitive match). * filtered by source and destination
-                    branches: "s:source-branch d:dest-branch" * filtered by source and destination branches with
-                    regex: "s:r:^feature d:r:master$" * filtered by many destination/source
-                    branches: "s:one s:two s:three d:master d:r:master$" * filtered by many sources
-                    branches: "s:one s:two s:r:^three d:" When you using format with source branch filter "s" or
-                    destination filter "d", you must cpecify great than one source and destination filter,
-                    eg "s:1 s:2 s:... d:". Any sources and any destinations for pull
-                    request: * filter string: "*" * filter string: "s: d:"  ( default '' )
+      Available formats:
+      * any pull requests applied for this project: "any", "*" or empty string.
+      * filtered by destination branch: "my-branch" or more complex reg-ex filter "r:^master"
+      (must be started with "r:" and case insensitive match).
+      * filtered by source and destination branches: "s:source-branch d:dest-branch"
+      * filtered by source and destination branches with regex: "s:r:^feature d:r:master$"
+      * filtered by many destination/source branches: "s:one s:two s:three d:master d:r:master$"
+      * filtered by many sources branches: "s:one s:two s:r:^three d:" When you using format with source branch filter "s" or
+      destination filter "d", you must cpecify great than one source and destination filter,
+      eg "s:1 s:2 s:... d:". Any sources and any destinations for pull request:
+      * filter string: "*"
+      * filter string: "s: d:"  ( default '' )
     :arg bool branches_filter_includes: The identifier needs to be unique among your Jenkins jobs related to this repo.
-                    This identifier is used to decide whether a commit is already built by this job and to set status
-                    for a newly built commit. If the value is changed rebuilds may occur and multiple statuses might
-                    show on an existing pull request. The value is not shown for end users of Bitbucket. ( default false )
+      This identifier is used to decide whether a commit is already built by this job and to set status
+      for a newly built commit. If the value is changed rebuilds may occur and multiple statuses might
+      show on an existing pull request. The value is not shown for end users of Bitbucket. ( default false )
     :arg str ci_key: The identifier needs to be unique among your Jenkins jobs related to this repo.
-                    This identifier is used to decide whether a commit is already built by this job and to set status
-                    for a newly built commit. If the value is changed rebuilds may occur and multiple statuses might
-                    show on an existing pull request. The value is not shown for end users of Bitbucket.  ( default '' )
+      This identifier is used to decide whether a commit is already built by this job and to set status
+      for a newly built commit. If the value is changed rebuilds may occur and multiple statuses might
+      show on an existing pull request. The value is not shown for end users of Bitbucket.  ( default '' )
     :arg str ci_name: This value is the name of the current job when showing build statuses
-                    for a pull request. ( default '' )
+      for a pull request. ( default '' )
     :arg str ci_skip_phrases: ( default '' )
     :arg bool check_commit: Rebuild if destination branch changes ( default false )
     :arg bool approve: Approve if build success ( default false )

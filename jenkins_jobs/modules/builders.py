@@ -1655,8 +1655,8 @@ def multijob(parser, xml_parent, data):
             kill_status = kill_status.upper()
             if kill_status not in kill_status_list:
                 raise JenkinsJobsException(
-                    'multijob kill-phase-on must be one of: %s'
-                    + ','.join(kill_status_list))
+                    'multijob kill-phase-on must be one of: %s' +
+                    ','.join(kill_status_list))
             XML.SubElement(
                 phaseJob,
                 'killPhaseOnJobResultCondition'
@@ -1855,9 +1855,10 @@ class Builders(jenkins_jobs.modules.base.Base):
     component_list_type = 'builders'
 
     global projects_with_unreadable_data
-    projects_with_unreadable_data = ('com.cloudbees.hudson.plugins.folder.Folder',
-                           'se.diabol.jenkins.pipeline.DeliveryPipelineView',
-                           'hudson.model.ListView')
+    projects_with_unreadable_data = (
+        'com.cloudbees.hudson.plugins.folder.Folder',
+        'se.diabol.jenkins.pipeline.DeliveryPipelineView',
+        'hudson.model.ListView')
 
     def gen_xml(self, parser, xml_parent, data):
 
@@ -2416,7 +2417,7 @@ def testlink(parser, xml_parent, data):
     :arg bool fail-if-no-results: Fail If No Results (default false)
     :arg bool fail-on-not-run: failOnNotRun flag (default false)
     :arg bool failure: Failure flag (default false)
-    :art list result-seekers
+    :arg list result-seekers:
         - junit-method
         - junit-class
         - junit-method
