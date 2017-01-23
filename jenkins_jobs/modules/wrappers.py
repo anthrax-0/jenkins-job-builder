@@ -1922,6 +1922,9 @@ def gradle_artifactory(parser, xml_parent, data):
         Remove older build info from Artifactory (default False)
     :arg bool discard-build-artifacts:
         Remove older build artifacts from Artifactory (default False)
+    :arg bool skip-inject-init-script:
+        The Jenkins plugin automatically applies the Artifactory plugin (and, consequently, the 'artifactoryPublish' task) to all projects.
+        Check this flag to have Jenkins skip this step if your project is already using the Artifactory plugin or the 'artifactoryPublish' task directly. All elements in this job configuration will override matching project-level configuration elements. (default False)
 
     Example:
 
@@ -1950,7 +1953,7 @@ def gradle_artifactory(parser, xml_parent, data):
         ('discardOldBuilds', 'discard-old-builds', False),
         ('passIdentifiedDownstream', 'pass-identified-downstream', False),
         ('discardBuildArtifacts', 'discard-build-artifacts', False),
-        ('skipInjectInitScripts', 'skip-inject-init-scripts', False),
+        ('skipInjectInitScript', 'skip-inject-init-script', False),
         ('allowPromotionOfNonStagedBuilds', 'allow-promotion-of-non-staged-builds', False),
         ('allowBintrayPushOfNonStageBuilds', 'allow-bintray-push-of-non-stage-builds', False),
         ('blackDuckRunChecks', 'black-duck-run-checks', False),
